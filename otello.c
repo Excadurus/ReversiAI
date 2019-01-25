@@ -3,7 +3,6 @@
  #include<time.h>
 void movefinder(char board[][8][3],char turn,char nturn);//peida kardan harekat mojaz
 int changeboard(char boardcpy[][8][3],int i,int j,char turn,char nturn);//taqir board baad az har marhale
-//int nextboard(char boardcpy[][][2]);
 void MoveChoose(char board[][8][3],int *x,int *y);//vazn bazi strategy avalie
 void strategy(char board[][8][3],char boardcpy[][8][3],int *xptr,int *yptr);//asl bazi
 int ChangeStrategy(char board[][8][3]);
@@ -47,29 +46,6 @@ int main(int argc, char const *argv[])
         MoveChoose(board,xptr,yptr);
     }
     printf("%d %d",*xptr,*yptr);
-    /*while(1){
-        x=rand()%8;
-        y=rand()%8;
-        if(board[y][x][0]=='1'){
-            printf("%d %d",x,y);
-            break;
-        }
-    }*/
-
-    /*for(int i=0;i<8;i++){
-        for(int j=0;j<8;j++){
-            printf("%c",board[i][j][1]);
-        }
-        printf("\n");
-    }
-    printf("\n");
-    for(int i=0;i<8;i++){
-        for(int j=0;j<8;j++){
-
-            printf("%c",board[i][j][0]);
-        }
-        printf("\n");
-    }*/
     return 0;
 }
 int ChangeStrategy(char board[][8][3])
@@ -409,11 +385,6 @@ int changeboard(char boardcpy[][8][3],int i, int j,char turn,char nturn){
     }
     return counter;
 }
-/*int nextboard(char boardcpy[][8][2]){
-    int counter=0;
-    int temp=0;
-    movefinder()
-}*/
 void strategy(char board[][8][3],char boardcpy[][8][3],int *xptr,int *yptr){
     int counteryou=0;//baraye shemordan teded mohrehayii ke ba har harekate ma taqir mikonad
     int counterrival=0;//baraye shemordan teded mohrehayii ke ba har harekate harid taqir mikonad
