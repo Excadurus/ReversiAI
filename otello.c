@@ -79,15 +79,15 @@ int ChangeStrategy(char board[][8][3])
     {
         c++;
     }
-    if (board[0][8][1]!='0')
+    if (board[0][7][1]!='0')
     {
         c++;
     }
-    if (board[8][0][1]!='0')
+    if (board[7][0][1]!='0')
     {
         c++;
     }
-    if (board[8][8][1]!='0')
+    if (board[7][7][1]!='0')
     {
         c++;
     }
