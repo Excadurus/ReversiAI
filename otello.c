@@ -1,10 +1,11 @@
 #include<stdio.h>
-void movefinder(char board[][8][2]);
+void movefinder(char board[][8][3]);
+void Weight(char board[][8][3]);
 #define you '1'//khaneye siyah ke maeem =1
 #define rival '2'//khaneye sefid harif=2
 int main(int argc, char const *argv[])
 {
-    char board[8][8][2];//board bazi
+    char board[8][8][3]; //board bazi
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
             board[i][j][1]=argv[i+1][j];//roye bazi
@@ -28,7 +29,7 @@ int main(int argc, char const *argv[])
     }
     return 0;
 }
-void movefinder(char board[][8][2]){
+void movefinder(char board[][8][3]){
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
             if(board[i][j][1]=='0'||board[i][j][1]==rival){
