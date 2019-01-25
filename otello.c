@@ -1,15 +1,18 @@
  #include<stdio.h>
  #include<stdlib.h>
  #include<time.h>
-void movefinder(char board[][8][2],char turn,char nturn);//peida kardan harekat mojaz
-int changeboard(char boardcpy[][8][2],int i,int j,char turn,char nturn);//taqir board baad az har marhale
+void movefinder(char board[][8][3],char turn,char nturn);//peida kardan harekat mojaz
+int changeboard(char boardcpy[][8][3],int i,int j,char turn,char nturn);//taqir board baad az har marhale
 //int nextboard(char boardcpy[][][2]);
-void strategy(char board[][8][2],char boardcpy[][8][2],int *xptr,int *yptr);//asl bazi
+void MoveChoose(char board[][8][3],int *x,int *y);//vazn bazi strategy avalie
+void strategy(char board[][8][3],char boardcpy[][8][3],int *xptr,int *yptr);//asl bazi
+int ChangeStrategy(char board[][8][3]);
 #define you '1'//khaneye siyah ke maeem =1
 #define rival '2'//khaneye sefid harif=2
 int main(int argc, char const *argv[])
 {
     char board[8][8][3]; //board bazi
+    char boardcpy[8][8][3];
     char weightboard[8][8]={
         {0, 7, 1, 3, 3, 1, 7, 0},
         {7, 8, 6, 5, 5, 6, 8, 7},
@@ -22,6 +25,7 @@ int main(int argc, char const *argv[])
     };//Board's Weight, The lower the Value. The Better the move. Basically Each number is a Priority.
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
+            board[i][j][2]=weightboard[i][j];//Laye Vazn bazi
             board[i][j][1]=argv[i+1][j];//roye bazi
             board[i][j][0]='0';//roye zirin baraye tayiin emkan harekat 1 baraye valid
         }
@@ -31,9 +35,18 @@ int main(int argc, char const *argv[])
             boardcpy[i][j][1]=board[i][j][1];
         }
     }//copy kardan board baraye taqirat;
+    int x,y;
+    int *xptr=&x,*yptr=&y;
     movefinder(board,you,rival);
-    strategy(board,boardcpy,xptr,ypter);
-    printf("%d %d",*xptr,*ypter);
+    if(ChangeStrategy(board))
+    {
+        strategy(board,boardcpy,xptr,yptr);
+    }
+    else
+    {
+        MoveChoose(board,xptr,yptr);
+    }
+    printf("%d %d",*xptr,*yptr);
     /*while(1){
         x=rand()%8;
         y=rand()%8;
@@ -59,7 +72,52 @@ int main(int argc, char const *argv[])
     }*/
     return 0;
 }
-void movefinder(char board[][8][2],char turn,char nturn){
+int ChangeStrategy(char board[][8][3])
+{
+    int c=0;
+    if (board[0][0][1]!='0')
+    {
+        c++;
+    }
+    if (board[0][8][1]!='0')
+    {
+        c++;
+    }
+    if (board[8][0][1]!='0')
+    {
+        c++;
+    }
+    if (board[8][8][1]!='0')
+    {
+        c++;
+    }
+    if(c>=3)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+void MoveChoose(char board[][8][3],int *x,int *y)
+{
+    int checkmax=9;//in badtarin olaviat momken ast ke az hame olaviat haye mojood dar board ham bishtar ast. dar natije 100% meghdar an avaz mishavad
+    for(int i=0;i<8;i++)
+    {
+        for(int j=0;j<8;j++)
+        {
+            if(board[i][j][0]=='1' && board[i][j][2]<checkmax)//agar harkat mojaz bood va olaviat an behtar bood meghdar an jaygozin mishavad
+            {
+                checkmax=board[i][j][2];//olaviat checkmax ra jadid tarin olaviat mikonad ta olaviat haye bad tar az halat konooni digar jaygozin nashavand
+                *x=j;// I va J ra Baraks be X,Y midahim zira satr va sotoon dar array barakse x va y dar nemoodar amal mikonand
+                *y=i;
+            }
+        }
+    }
+    return;
+}
+void movefinder(char board[][8][3],char turn,char nturn){
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
             if(board[i][j][1]=='0'||board[i][j][1]==nturn){
@@ -173,7 +231,7 @@ void movefinder(char board[][8][2],char turn,char nturn){
     }
     return;
 }
-int changeboard(char boardcpy[][8][2],int i, int j,char turn,char nturn){
+int changeboard(char boardcpy[][8][3],int i, int j,char turn,char nturn){
     //azinja
     int counter=0;//shomarandeye tedad mohrehaye taqiir karde
     int temp=0;//komaki baraye afzayesh shomarande
@@ -356,7 +414,7 @@ int changeboard(char boardcpy[][8][2],int i, int j,char turn,char nturn){
     int temp=0;
     movefinder()
 }*/
-void strategy(char board[][8][2],char boardcpy[][8][2],int *xptr,int *yptr){
+void strategy(char board[][8][3],char boardcpy[][8][3],int *xptr,int *yptr){
     int counteryou=0;//baraye shemordan teded mohrehayii ke ba har harekate ma taqir mikonad
     int counterrival=0;//baraye shemordan teded mohrehayii ke ba har harekate harid taqir mikonad
     int maxrival=0;//max tedad mohrehayi ke harif mitavanad taqir dahad
