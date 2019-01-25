@@ -7,14 +7,14 @@ int main(int argc, char const *argv[])
 {
     char board[8][8][3]; //board bazi
     char weightboard[8][8]={
-        {0, 7, 1, 4, 4, 1, 7, 0},
+        {0, 7, 1, 3, 3, 1, 7, 0},
         {7, 8, 6, 5, 5, 6, 8, 7},
-        {1, 6, 2, 3, 3, 2, 6, 1},
-        {4, 5, 3, 0, 0, 3, 5, 4},
-        {4, 5, 3, 0, 0, 3, 5, 4},
-        {1, 6, 2, 3, 3, 2, 6, 1},
+        {1, 6, 2, 4, 4, 2, 6, 1},
+        {3, 5, 4, 0, 0, 4, 5, 3},
+        {3, 5, 4, 0, 0, 4, 5, 3},
+        {1, 6, 2, 4, 4, 2, 6, 1},
         {7, 8, 6, 5, 5, 6, 8, 7},
-        {0, 7, 1, 4, 4, 1, 7, 0}
+        {0, 7, 1, 3, 3, 1, 7, 0}
     };//Board's Weight, The lower the Value. The Better the move. Basically Each number is a Priority.
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
