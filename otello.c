@@ -8,13 +8,14 @@ void strategy(char board[][8][3],int *xptr,int *yptr,int *counteryou,int *counte
 int ChangeStrategy(char board[][8][3]);
 int main(int argc, char const *argv[])
 {
-    char you,rival;
-    if (*argv[9]=='1')
+    char you,rival;//Moshakhas kardan nafar avval va dovoom
+    int boardcounter;//Tedad khane haye khali board ra ba in check mikonim
+    if (*argv[9]=='1')//agar arguman 1 ro beonvane voroodi begirim
     {
         you='1';
         rival ='2';
     }
-    else
+    else//agar arguman 2 ro beonvane voroodi begirim
     {
         you='2';
         rival ='1';
@@ -35,6 +36,10 @@ int main(int argc, char const *argv[])
             board[i][j][2]=weightboard[i][j];//Laye Vazn bazi
             board[i][j][1]=argv[i+1][j];//roye bazi
             board[i][j][0]='0';//roye zirin baraye tayiin emkan harekat 1 baraye valid
+            if(board[i][j][1]=='0')
+            {
+                boardcounter++;
+            }
         }
     }
     int x,y;
@@ -43,7 +48,8 @@ int main(int argc, char const *argv[])
     int counteryou=0;//baraye shemordan teded mohrehayii ke ba har harekate ma taqir mikonad
     int counterrival=0;//baraye shemordan teded mohrehayii ke ba har harekate harid taqir mikonad
     // in 2 moteghayer baraye Tabe Strategy Estefade mishavand.
-    if(ChangeStrategy(board))
+
+    if(ChangeStrategy(board) && boardcounter != 1)
     {
         strategy(board,xptr,yptr,&counteryou,&counterrival,2,you,rival);
     }
@@ -51,6 +57,8 @@ int main(int argc, char const *argv[])
     {
         MoveChoose(board,xptr,yptr);
     }
+   
+    
     printf("%d %d",*xptr,*yptr);
     return 0;
 }
@@ -400,13 +408,16 @@ void strategy(char board[][8][3],int *xptr,int *yptr,int *counteryou,int *counte
     }//copy kardan board baraye taqirat;
     int maxrival=0;//max tedad mohrehayi ke harif mitavanad taqir dahad
     int result=-64;//baraye mohasebeye tafazol emtiaz ma va harif
+    int temprival;
+    int tempyou;
     for(int i=0;i<8;i++){ 
         for(int j=0;j<8;j++){//chek kardan tak tak khaneha
         //printf("r");
             if(board[i][j][0]=='1'){//shart baraye anjam taqirat dar soorat residan be harekat mojaz
             //printf("ra");
                 boardcpy[i][j][1]=you;//gozashtan mohreye khodi dar jaye harekat mojaz
-                *counteryou+=changeboard(boardcpy,i,j,you,rival);//taqir dadan board va shomaresh khanehaye taqir yafte
+                tempyou=changeboard(boardcpy,i,j,you,rival);//taqir dadan board va shomaresh khanehaye taqir yafte
+                *counteryou+=tempyou;
                 movefinder(boardcpy,rival,you);//peida kardan harekate mojaze harif
                 for(int t=0;t<8;t++){//check kardan tak tak khanehaye harrif baad az taqiir
                 //printf("raf");
@@ -414,7 +425,8 @@ void strategy(char board[][8][3],int *xptr,int *yptr,int *counteryou,int *counte
                         if(boardcpy[t][k][0]=='1'){//sharte residan be harekate mojaz
                         //printf("raft");
                             boardcpy[t][k][1]=rival;//gozashtan mohreye harif dar jaye harekate mojaz
-                            *counterrival+=changeboard(boardcpy,t,k,rival,you);//taqir dadan board va shomareshkhanehaye taqiir karde ba harekat harif
+                            temprival=changeboard(boardcpy,t,k,rival,you);//taqir dadan board va shomareshkhanehaye taqiir karde ba harekat harif
+                            *counterrival+=temprival;
                             if (n!= 1)
                             {
                                  movefinder(boardcpy,you,rival);
@@ -425,7 +437,7 @@ void strategy(char board[][8][3],int *xptr,int *yptr,int *counteryou,int *counte
                             //printf("raftt ");
                             maxrival=*counterrival;
                         }//baraye tayin bishtarin emtiaze harif
-                        *counteryou=0;
+                        *counterrival -=temprival;
                     }
                 }
                 //printf("m%d\n",maxrival);
@@ -435,7 +447,7 @@ void strategy(char board[][8][3],int *xptr,int *yptr,int *counteryou,int *counte
                     *xptr=j;
                     *yptr=i;
                 }//baraye tayyin bishtarin tafazol va negah dashtan mokhtasat
-                *counterrival=0;
+                *counteryou-=tempyou;;
             }
             for(int t=0;t<8;t++){
                 for(int k=0;k<8;k++){
