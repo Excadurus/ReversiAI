@@ -4,12 +4,13 @@
 void movefinder(char board[][8][3],char turn,char nturn);//peida kardan harekat mojaz
 int changeboard(char boardcpy[][8][3],int i,int j,char turn,char nturn);//taqir board baad az har marhale
 void MoveChoose(char board[][8][3],int *x,int *y);//vazn bazi strategy avalie
-void strategy(char board[][8][3],char boardcpy[][8][3],int *xptr,int *yptr);//asl bazi
+void strategy(char board[][8][3],char boardcpy[][8][3],int *xptr,int *yptr,char you,char rival);//asl bazi
 int ChangeStrategy(char board[][8][3]);
-#define you '1'//khaneye siyah ke maeem =1
-#define rival '2'//khaneye sefid harif=2
+//#define you '1'//khaneye siyah ke maeem =1
+//#define rival '2'//khaneye sefid harif=2
 int main(int argc, char const *argv[])
 {
+    char you,rival;
     char board[8][8][3]; //board bazi
     char boardcpy[8][8][3];
     char weightboard[8][8]={
@@ -29,6 +30,15 @@ int main(int argc, char const *argv[])
             board[i][j][0]='0';//roye zirin baraye tayiin emkan harekat 1 baraye valid
         }
     }
+    //printf("%c\n",*argv[9]);
+    if(*argv[9]=='1'){
+        you='1';
+        rival='2';
+    }
+    else{
+        you='2';
+        rival='1';
+    }
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
             boardcpy[i][j][1]=board[i][j][1];
@@ -39,7 +49,7 @@ int main(int argc, char const *argv[])
     movefinder(board,you,rival);
     if(ChangeStrategy(board))
     {
-        strategy(board,boardcpy,xptr,yptr);
+        strategy(board,boardcpy,xptr,yptr,you,rival);
     }
     else
     {
@@ -385,7 +395,7 @@ int changeboard(char boardcpy[][8][3],int i, int j,char turn,char nturn){
     }
     return counter;
 }
-void strategy(char board[][8][3],char boardcpy[][8][3],int *xptr,int *yptr){
+void strategy(char board[][8][3],char boardcpy[][8][3],int *xptr,int *yptr,char you,char rival){
     int counteryou=0;//baraye shemordan teded mohrehayii ke ba har harekate ma taqir mikonad
     int counterrival=0;//baraye shemordan teded mohrehayii ke ba har harekate harid taqir mikonad
     int maxrival=0;//max tedad mohrehayi ke harif mitavanad taqir dahad
