@@ -4,12 +4,13 @@
 void movefinder(char board[][8][3],char turn,char nturn);//peida kardan harekat mojaz
 int changeboard(char boardcpy[][8][3],int i,int j,char turn,char nturn);//taqir board baad az har marhale
 void MoveChoose(char board[][8][3],int *x,int *y);//vazn bazi strategy avalie
-void strategy(char board[][8][3],int *xptr,int *yptr,int *counteryou,int *counterrival,int n);//asl bazi
+void strategy(char board[][8][3],int *xptr,int *yptr,int *counteryou,int *counterrival,int n,char you,char rival);//asl bazi
 int ChangeStrategy(char board[][8][3]);
-#define you '1'//khaneye siyah ke maeem =1
-#define rival '2'//khaneye sefid harif=2
+//#define you '1'//khaneye siyah ke maeem =1
+//#define rival '2'//khaneye sefid harif=2
 int main(int argc, char const *argv[])
 {
+    char you,rival;
     char board[8][8][3]; //board bazi
     char weightboard[8][8]={
         {0, 7, 1, 3, 3, 1, 7, 0},
@@ -36,7 +37,7 @@ int main(int argc, char const *argv[])
     // in 2 moteghayer baraye Tabe Strategy Estefade mishavand.
     if(ChangeStrategy(board))
     {
-        strategy(board,xptr,yptr,&counteryou,&counterrival,2);
+        strategy(board,xptr,yptr,&counteryou,&counterrival,2,you,rival);
     }
     else
     {
@@ -382,7 +383,7 @@ int changeboard(char boardcpy[][8][3],int i, int j,char turn,char nturn){
     }
     return counter;
 }
-void strategy(char board[][8][3],int *xptr,int *yptr,int *counteryou,int *counterrival,int n){
+void strategy(char board[][8][3],int *xptr,int *yptr,int *counteryou,int *counterrival,int n,char you,char rival){
     char boardcpy[8][8][3];
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
@@ -396,7 +397,7 @@ void strategy(char board[][8][3],int *xptr,int *yptr,int *counteryou,int *counte
         //printf("r");
             if(board[i][j][0]=='1'){//shart baraye anjam taqirat dar soorat residan be harekat mojaz
             //printf("ra");
-                boardcpy[i][j][1]='1';//gozashtan mohreye khodi dar jaye harekat mojaz
+                boardcpy[i][j][1]=you;//gozashtan mohreye khodi dar jaye harekat mojaz
                 *counteryou+=changeboard(boardcpy,i,j,you,rival);//taqir dadan board va shomaresh khanehaye taqir yafte
                 movefinder(boardcpy,rival,you);//peida kardan harekate mojaze harif
                 for(int t=0;t<8;t++){//check kardan tak tak khanehaye harrif baad az taqiir
@@ -404,12 +405,12 @@ void strategy(char board[][8][3],int *xptr,int *yptr,int *counteryou,int *counte
                     for(int k=0;k<8;k++){
                         if(boardcpy[t][k][0]=='1'){//sharte residan be harekate mojaz
                         //printf("raft");
-                            boardcpy[t][k][1]='2';//gozashtan mohreye harif dar jaye harekate mojaz
+                            boardcpy[t][k][1]=rival;//gozashtan mohreye harif dar jaye harekate mojaz
                             *counterrival+=changeboard(boardcpy,t,k,rival,you);//taqir dadan board va shomareshkhanehaye taqiir karde ba harekat harif
                             if (n!= 1)
                             {
                                  movefinder(boardcpy,you,rival);
-                                 strategy(board,xptr,yptr,counteryou,counterrival,n-1);
+                                 strategy(board,xptr,yptr,counteryou,counterrival,n-1,you,rival);
                             }
                         }
                         if(*counterrival>maxrival){
