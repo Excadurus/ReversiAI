@@ -6,11 +6,19 @@ int changeboard(char boardcpy[][8][3],int i,int j,char turn,char nturn);//taqir 
 void MoveChoose(char board[][8][3],int *x,int *y);//vazn bazi strategy avalie
 void strategy(char board[][8][3],int *xptr,int *yptr,int *counteryou,int *counterrival,int n,char you,char rival);//asl bazi
 int ChangeStrategy(char board[][8][3]);
-//#define you '1'//khaneye siyah ke maeem =1
-//#define rival '2'//khaneye sefid harif=2
 int main(int argc, char const *argv[])
 {
     char you,rival;
+    if (*argv[9]=='1')
+    {
+        you='1';
+        rival ='2';
+    }
+    else
+    {
+        you='2';
+        rival ='1';
+    }
     char board[8][8][3]; //board bazi
     char weightboard[8][8]={
         {0, 7, 1, 3, 3, 1, 7, 0},
