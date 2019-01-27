@@ -405,7 +405,7 @@ void strategy(char board[][8][3],char boardcpy[][8][3],int *xptr,int *yptr,char 
         //printf("r");
             if(board[i][j][0]=='1'){//shart baraye anjam taqirat dar soorat residan be harekat mojaz
             //printf("ra");
-                boardcpy[i][j][1]='1';//gozashtan mohreye khodi dar jaye harekat mojaz
+                boardcpy[i][j][1]=you;//gozashtan mohreye khodi dar jaye harekat mojaz
                 counteryou=changeboard(boardcpy,i,j,you,rival);//taqir dadan board va shomaresh khanehaye taqir yafte
                 movefinder(boardcpy,rival,you);//peida kardan harekate mojaze harif
                 for(int t=0;t<8;t++){//check kardan tak tak khanehaye harrif baad az taqiir
@@ -413,7 +413,7 @@ void strategy(char board[][8][3],char boardcpy[][8][3],int *xptr,int *yptr,char 
                     for(int k=0;k<8;k++){
                         if(boardcpy[t][k][0]=='1'){//sharte residan be harekate mojaz
                         //printf("raft");
-                            boardcpy[t][k][1]='2';//gozashtan mohreye harif dar jaye harekate mojaz
+                            boardcpy[t][k][1]=rival;//gozashtan mohreye harif dar jaye harekate mojaz
                             counterrival=changeboard(boardcpy,t,k,rival,you);//taqir dadan board va shomareshkhanehaye taqiir karde ba harekat harif
 
                         }
